@@ -1,0 +1,40 @@
+
+    
+
+        <h1>Pizza {{title}} </h1>
+
+     {{#if price}}
+        <h2>Price {{price}}€ </h2>
+     {{else}}
+         <h2>Price upon request</h2>
+
+        {{/if}}
+
+
+ <hr />
+
+<div>
+    <h2>Ingredients</h2>
+    {{!--
+
+    TASK:
+    - render one <li> for every ingredient
+
+        --}}
+
+        {{!-- #each iteratesthrough each of the elements of an array (and an object) we display each element using "this" --}}
+        <ul>
+            {{#each ingredients}} 
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
+</div>
+
+     {{log "this is a message in the console"}}
+    {{log ingredients}}
+
+
+
+        <img src="/images/{{imageFile}}" alt="image still in the oven" />        
+
+   
