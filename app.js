@@ -117,3 +117,4 @@ app.listen(3400, () => { console.log("server listening on port 3400...")});
 //npm start 
 //"dev": "kill -9 $(lsof -t -i:3400) && node app.js",
 // "start": "nodemon --exec npm run dev"
+ 
