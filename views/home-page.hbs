@@ -1,5 +1,56 @@
 <h1>Welcome to our Restaurant</h1>
 <img src="/images/home.jpg" alt="delicious pizzas" />
 
-{{> ctaOrderNow}}
+<section>
+            <h3>Search by price:</h3>
+
+        {{!-- crate a FORM INPUT. when user sends a get request, we send them to the path /pizzas (page with all pizzas) --}}
+
+<form method="GET" action="/pizzas">
+
+
+<label>Max Price:
+
+<input type="number" name="maxPrice">  
+{{!-- I take maxPrice from the query from app.js>>> const maximumPrice = req.query.maxPrice;--}}
+{{!-- //inputs have a number of accepted data entry types --}}
+
+</label>
+
+<button type="submit">search</button>
+
+
+</form>
+</section>
+
+
+
+<section>
+    <h3>Login:</h3>
+
+    <form method="POST" action="/login">
+    {{!-- with GET, the information travels in the query sring taht will be shown in the browser adn shown in th history. this is why we dont use send GET requests for passwords or any sensitive data --}}
+        {{!-- DO NOT GET request for sensitive data --}}
+        {{!-- use POST instead--}}
+        <label>
+            Email:
+            <input type="email" name="emailaddress" required />
+        </label>
+
+        <label>
+            Password:
+            <input type="password" name="pwd" required />
+        </label>
+
+        <button type="submit">Login</button>
+    </form>
+
+</section>
+
+
+
+
+{{!-- //banner --}}
+{{> ctaOrderNow}} 
+
 
