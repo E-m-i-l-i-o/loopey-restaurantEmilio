@@ -90,10 +90,10 @@ app.get("/pizzas/margarita", (req, res, send) => {
 app.get("/pizzas/veggie", (req, res, send) => {
     //res.send("page for veggie");
 
-    Pizza.findOne({title:"veggie"})
+    Pizza.findOne({title:"veggie"})//if this operation is succesful, execute teh following .then
     .then((pizzaFromDB)=>{
         console.log(pizzaFromDB)
-        res.render('product', pizzaFromDB)
+        res.render('product', pizzaFromDB)//render the hbs view and pass to hbs the info of this pizza that we found above: Pizza.findOne({title:"veggie"})
     })
     .catch(e => console.log("error getting pizza from DB", e))
 });
