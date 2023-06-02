@@ -1,13 +1,25 @@
 const express = require("express");
-const hbs = require("hbs"); //we require and store teh packagehbs
+const hbs = require("hbs"); //we require and store teh package hbs
+const mongoose = require("mongoose"); //require mongoose
+
+const Pizza = require("./models/Pizza.model"); //connect this page with the model
 const app = express();
-
+//
 app.use(express.static('public')); // Make everything inside of public-> available
-
+//
 app.set("views", __dirname + "/views"); ///tells our Express app where to look for our views
 app.set("view engine", "hbs");//sets HBS as the template engine
-
+//
 hbs.registerPartials(__dirname + "/views/partials");//Im telling HBS where I want to store my partials
+//
+
+mongoose //connect to the database
+  .connect('mongodb://127.0.0.1/loopeyRestaurant')
+  .then(x => {
+    console.log(`Connected! Database name: "${x.connections[0].name}"`);
+  })
+  .catch( e => console.log("error connecting to DB", e));
+
 
 //now we can apply methods to app
 // app.get(path, code); whenever you get a request to a specific path, execute this code (can be a function in any form.)
@@ -58,19 +70,19 @@ app.get("/contact", (req, res, next) => {
 ////////////////
 
 
-// GET /pizzas/margarita
+// GET /pizzas/margarita 
 app.get("/pizzas/margarita", (req, res, send) => {
-    //res.send("page for margarita");
+    //res.send("page for margarita"); if we were to use a page.
+
+    //from the database mongoDB loopey restaurant -> pizzas
+    Pizza.findOne({title: "margarita"})
+    .then( (pizzaFromDB) => {
+        console.log(pizzaFromDB)
+        res.render('product', pizzaFromDB); //name of the rendered 'view' (page without extension & without slash at the beggining)
+
+    })    
+    .catch( e => console.log("error getting pizza from DB", e))
     
-    const dataMargarita = {
-        title: "Pizza Margarita",
-        price: 15,
-        recommendedDrink: 'Beer',
-        imageFile: 'pizza-margarita.jpg',
-        ingredients: ['cherry tomatoes', 'basilicum', 'Olives']
-    }
-    
-    res.render('product', dataMargarita); //name of the rendered 'view' (page without extension & without slash at the beggining)
 });
 
 
@@ -78,17 +90,12 @@ app.get("/pizzas/margarita", (req, res, send) => {
 app.get("/pizzas/veggie", (req, res, send) => {
     //res.send("page for veggie");
 
-    const dataVeggie = {
-        title: 'Veggie Pizza',
-        price: 13,
-        recommendedDrink: 'power smoothie',
-        imageFile: 'pizza-veggie.jpg',
-        ingredients: ['cherry tomatoes', 'basilicum', 'Olives'],
-      };
-    res.render('product', dataVeggie)
-
-
-
+    Pizza.findOne({title:"veggie"})
+    .then((pizzaFromDB)=>{
+        console.log(pizzaFromDB)
+        res.render('product', pizzaFromDB)
+    })
+    .catch(e => console.log("error getting pizza from DB", e))
 });
 
 
@@ -96,14 +103,12 @@ app.get("/pizzas/veggie", (req, res, send) => {
 app.get("/pizzas/seafood", (req, res, next) => {
    // res.send("page for seafood");
 
-   const dataSeafood = {
-    title: 'Seafood Pizza',
-
-    recommendedDrink: 'white wine',
-    imageFile: 'pizza-seafood.jpg',
-    ingredients: ['tomato sauce', 'garlic', 'prawn'],
-  };
-  res.render('product', dataSeafood);
+   Pizza.findOne({title:"seafood"})
+   .then((pizzaFromDB)=>{
+    console.log(pizzaFromDB)
+    res.render('product', pizzaFromDB)
+   })
+   .catch(e => console.log("error getting pizza from DB", e))
 });
 
 
@@ -113,6 +118,10 @@ app.listen(3400, () => { console.log("server listening on port 3400...")});
 //
 //
 //
+
+
+
+
 
 //npm start 
 //"dev": "kill -9 $(lsof -t -i:3400) && node app.js",
